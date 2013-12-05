@@ -10,6 +10,10 @@
 
 @interface RemoteLogger : NSObject
 
-+(void)log:(NSString *)server message:(NSString *)message;
+@property (nonatomic, strong) NSString *serverName;
+@property (nonatomic, strong) NSString *appName;
+
++ (RemoteLogger *)sharedInstance;
+- (void)log:(NSString *)message;
 
 @end

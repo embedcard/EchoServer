@@ -8,10 +8,29 @@
 
 #import "RemoteLogger.h"
 
-static NSString *SERVER_NAME = @"192.168.0.180";
-static NSString *APP_NAME = @"emPOS";
-
 @implementation RemoteLogger
+
+-(id)init {
+    self = [super init];
+    if(self != nil)
+    {
+        _serverName = @"127.0.0.1";
+        _appName = @"RemoteLogger";
+    }
+    return self;
+}
+
+#pragma mark - Singleton
+
++ (RemoteLogger *)sharedInstance {
+	static RemoteLogger *_remoteLogger = nil;
+    static dispatch_once_t oncePredicate;
+    dispatch_once(&oncePredicate, ^{
+        _remoteLogger = [[self alloc] init];
+    });
+    
+    return _remoteLogger;
+}
 
 +(NSString *)urlencode:(NSString *)str {
     NSMutableString *output = [NSMutableString string];
@@ -33,8 +52,11 @@ static NSString *APP_NAME = @"emPOS";
     return output;
 }
 
-+(void)log:(NSString *)server message:(NSString *)message {
-    NSString *urlString = [NSString stringWithFormat:@"http://%@/appLog.php?appName=%@&message=%@", server, APP_NAME, [RemoteLogger urlencode:message ]];
+-(void)log:(NSString *)message {
+    if(message == nil) {
+        message = @"nil";
+    }
+    NSString *urlString = [NSString stringWithFormat:@"http://%@/appLog.php?appName=%@&message=%@", _serverName, _appName, [RemoteLogger urlencode:message ]];
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *theRequest = [NSURLRequest requestWithURL:url];
     
