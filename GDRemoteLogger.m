@@ -1,29 +1,27 @@
 //
-//  RemoteLogger.m
-//  emPOS
+//  GDRemoteLogger.m
 //
 //  Created by Gary Davies on 28/11/13.
-//  Copyright (c) 2013 Embed International Pty Ltd. All rights reserved.
 //
 
-#import "RemoteLogger.h"
+#import "GDRemoteLogger.h"
 
-@implementation RemoteLogger
+@implementation GDRemoteLogger
 
 -(id)init {
     self = [super init];
     if(self != nil)
     {
         _serverName = @"127.0.0.1";
-        _appName = @"RemoteLogger";
+        _appName = @"GDRemoteLogger";
     }
     return self;
 }
 
 #pragma mark - Singleton
 
-+ (RemoteLogger *)sharedInstance {
-	static RemoteLogger *_remoteLogger = nil;
++ (GDRemoteLogger *)sharedInstance {
+	static GDRemoteLogger *_remoteLogger = nil;
     static dispatch_once_t oncePredicate;
     dispatch_once(&oncePredicate, ^{
         _remoteLogger = [[self alloc] init];
@@ -56,7 +54,7 @@
     if(message == nil) {
         message = @"nil";
     }
-    NSString *urlString = [NSString stringWithFormat:@"http://%@/appLog.php?appName=%@&message=%@", _serverName, _appName, [RemoteLogger urlencode:message ]];
+    NSString *urlString = [NSString stringWithFormat:@"http://%@/appLog.php?appName=%@&message=%@", _serverName, _appName, [GDRemoteLogger urlencode:message ]];
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *theRequest = [NSURLRequest requestWithURL:url];
     

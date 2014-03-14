@@ -1,19 +1,17 @@
 //
-//  RemoteLogger.h
-//  emPOS
+//  GDRemoteLogger.h
 //
 //  Created by Gary Davies on 28/11/13.
-//  Copyright (c) 2013 Embed International Pty Ltd. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@interface RemoteLogger : NSObject
+@interface GDRemoteLogger : NSObject
 
 @property (nonatomic, strong) NSString *serverName;
 @property (nonatomic, strong) NSString *appName;
 
-+ (RemoteLogger *)sharedInstance;
++ (GDRemoteLogger *)sharedInstance;
 - (void)log:(NSString *)message;
 
 @end
