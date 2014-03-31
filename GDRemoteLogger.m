@@ -30,10 +30,10 @@
     return _remoteLogger;
 }
 
-+(NSString *)urlencode:(NSString *)str {
++ (NSString *)urlencode:(NSString *)str {
     NSMutableString *output = [NSMutableString string];
     const unsigned char *source = (const unsigned char *)[str UTF8String];
-    int sourceLen = strlen((const char *)source);
+    NSUInteger sourceLen = strlen((const char *)source);
     for (int i = 0; i < sourceLen; ++i) {
         const unsigned char thisChar = source[i];
         if (thisChar == ' '){
@@ -50,7 +50,8 @@
     return output;
 }
 
--(void)log:(NSString *)message {
+- (void)log:(NSString *)message {
+#if TARGET_IPHONE_SIMULATOR || DEBUG
     if(message == nil) {
         message = @"nil";
     }
@@ -60,6 +61,7 @@
     
     NSURLResponse* response = nil;
     [NSURLConnection sendSynchronousRequest:theRequest returningResponse:&response error:nil];
+#endif
 }
 
 @end
