@@ -59,8 +59,10 @@
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *theRequest = [NSURLRequest requestWithURL:url];
     
-    NSURLResponse* response = nil;
-    [NSURLConnection sendSynchronousRequest:theRequest returningResponse:&response error:nil];
+	NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+	[NSURLConnection sendAsynchronousRequest:theRequest queue:queue	completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
+		
+	}];
 #endif
 }
 
