@@ -6,7 +6,9 @@
 
 #import "GDRemoteLogger.h"
 
-@implementation GDRemoteLogger
+@implementation GDRemoteLogger {
+	dispatch_queue_t queue;
+}
 
 -(id)init {
     self = [super init];
@@ -14,6 +16,8 @@
     {
         _serverName = @"127.0.0.1";
         _appName = @"GDRemoteLogger";
+		
+		queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     }
     return self;
 }
@@ -59,10 +63,9 @@
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *theRequest = [NSURLRequest requestWithURL:url];
     
-	NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-	[NSURLConnection sendAsynchronousRequest:theRequest queue:queue	completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
-		
-	}];
+	dispatch_sync(queue, ^{
+		[NSURLConnection sendSynchronousRequest:theRequest returningResponse:nil error:nil];
+	});
 #endif
 }
 
